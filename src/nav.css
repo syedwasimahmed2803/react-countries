@@ -1,0 +1,25 @@
+nav {
+  display: flex;
+  align-items: center;
+  /* width: 100vw; */
+  background-color: white;
+  padding-inline: 7vw;
+  /* position: fixed; */
+  padding-block: 3rem;
+  font-size: 1.2rem;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+.header-text {
+  margin-right: auto;
+  font-weight: 800;
+  font-size: 2rem;
+}
+.toggle {
+  display: flex;
+  font-weight: 600;
+  cursor: pointer;
+}
+i {
+  padding-inline: 1vw;
+  font-weight: 500;
+}
