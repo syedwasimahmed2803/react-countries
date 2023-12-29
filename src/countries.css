@@ -4,12 +4,12 @@ body {
 
 header {
   display: flex;
-
+  justify-content: space-between;
   margin-inline: 9vw;
   padding-top: 5vh;
 }
 header .search-container {
-  margin-right: auto;
+  /* margin-right: auto; */
   background-color: var(--white);
   align-items: center;
   width: 30vw;

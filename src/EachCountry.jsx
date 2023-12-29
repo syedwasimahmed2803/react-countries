@@ -1,3 +1,5 @@
+import { ThreeDots } from "react-loader-spinner";
+
 const EachCountry = ({ filteredCountries }) => {
   return (
     <section className="section">
@@ -22,7 +24,16 @@ const EachCountry = ({ filteredCountries }) => {
           </div>
         ))
       ) : (
-        <h2>No such countries found</h2>
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#4fa94d"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
       )}
     </section>
   );
