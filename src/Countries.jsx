@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import "./countries.css";
+import EachCountry from "././EachCountry";
 const API_URL = "https://restcountries.com/v3.1/all";
 
 const Countries = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All");
-  const [filteredCountries, setFilteredCountries] = useState([]);
+  const subRegionData = [];
+  const [subRegion, setSubRegion] = useState("All");
   const fetchData = async () => {
     try {
       const response = await fetch(API_URL);
@@ -24,19 +26,27 @@ const Countries = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  useEffect(() => {
-    const filtered = data.filter((country) => {
-      const searchFilter = country.name.common
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const regionFilter =
-        selectedRegion === "All" || country.region === selectedRegion;
 
-      return searchFilter && regionFilter;
-    });
+  data.forEach((item) => {
+    if (item.region === selectedRegion) {
+      if (!subRegionData.includes(item.subregion)) {
+        subRegionData.push(item.subregion);
+      }
+    }
+  });
+  const filteredCountries = data.filter((country) => {
+    const searchFilter = country.name.common
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const regionFilter =
+      selectedRegion === "All" || country.region === selectedRegion;
+    const subRegionFilter =
+      subRegion === "All" || country.subregion === subRegion;
+    return searchFilter && regionFilter && subRegionFilter;
+  });
 
-    setFilteredCountries(filtered);
-  }, [data, search, selectedRegion]);
+  // setFilteredCountries(filtered);
+  // }, [data, search, selectedRegion]);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -44,6 +54,10 @@ const Countries = () => {
   const handleRegionChange = (e) => {
     setSelectedRegion(e.target.value);
   };
+  const uniqueRegions = data
+    .map((item) => item.region)
+    .filter((value, index, self) => self.indexOf(value) === index);
+
   return (
     <>
       <header className="header">
@@ -60,6 +74,22 @@ const Countries = () => {
         </div>
         <div className="dropdown">
           <select
+            placeholder="Choose"
+            onChange={(e) => setSubRegion(e.target.value)}
+            className="dropbtn"
+          >
+            <option value={subRegion}>Filter by Subregion</option>
+            {subRegionData.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+            <option className="dropdown-content" value={subRegion}></option>
+          </select>
+        </div>
+
+        <div className="dropdown">
+          <select
             value={selectedRegion}
             placeholder="Choose"
             className="dropbtn"
@@ -68,46 +98,15 @@ const Countries = () => {
             <option value="All" defaultValue={selectedRegion}>
               Filter by region
             </option>
-            <option className="dropdown-content" value="Africa">
-              Africa
-            </option>
-            <option className="dropdown-content" value="Americas">
-              Americas
-            </option>
-            <option className="dropdown-content" value="Asia">
-              Asia
-            </option>
-            <option className="dropdown-content" value="Europe">
-              Europe
-            </option>
-            <option className="dropdown-content" value="Oceania">
-              Oceania
-            </option>
+            {uniqueRegions.map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
           </select>
         </div>
       </header>
-      <section className="section">
-        {filteredCountries.map((country) => {
-          return (
-            <div key={country.name.common} className="card">
-              <img className="flag" src={country.flags.png} />
-              <h3 id="name">{country.name.common}</h3>
-              <p className="text">
-                <span>Population : </span>
-                {country.population.toLocaleString()}
-              </p>
-              <p className="text">
-                <span>Region : </span>
-                {country.region}
-              </p>
-              <p className="text" id="last-item">
-                <span>Capital : </span>
-                {country.capital}
-              </p>
-            </div>
-          );
-        })}
-      </section>
+      <EachCountry filteredCountries={filteredCountries} />
     </>
   );
 };
