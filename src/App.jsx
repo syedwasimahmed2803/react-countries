@@ -1,5 +1,6 @@
 import "./App.css";
-import Countries from "./Countries";
+// import Countries from "./Countries";
+import Contents from "./Contents";
 import Nav from "./Nav";
 // import Header from "./Header";
 function App() {
@@ -7,7 +8,8 @@ function App() {
     <>
       <Nav />
       {/* <Header /> */}
-      <Countries />
+      {/* <Countries /> */}
+      <Contents />
     </>
   );
 }

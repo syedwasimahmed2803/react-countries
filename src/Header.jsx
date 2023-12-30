@@ -1,42 +1,13 @@
-import { useState, useEffect } from "react";
-import { ThreeDots } from "react-loader-spinner";
-import "./countries.css";
-import EachCountry from "././EachCountry";
-const API_URL = "https://restcountries.com/v3.1/all";
-
-const Countries = () => {
-  const [data, setData] = useState([]);
+import { useState } from "react";
+import Cards from "./Cards";
+import "./Header.css";
+const Header = ({ data }) => {
   const [search, setSearch] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All");
-
-  const [subRegion, setSubRegion] = useState("All");
-  const [population, setPopulation] = useState("All");
-  const [area, setArea] = useState("");
-  const fetchData = async () => {
-    try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        console.error("Error");
-        return;
-      } else {
-        const data = await response.json();
-        setData(data);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [selectedSubRegion, setSelectedSubRegion] = useState("All");
+  const [selectedPopulationOrder, setSelectedPopulationOrder] = useState("");
+  const [selectedAreaOrder, setSelectedAreaOrder] = useState("");
   const subRegionData = [];
-  data.forEach((item) => {
-    if (item.region === selectedRegion) {
-      if (!subRegionData.includes(item.subregion)) {
-        subRegionData.push(item.subregion);
-      }
-    }
-  });
 
   const filteredCountries = data.filter((country) => {
     const searchFilter = country.name.common
@@ -45,39 +16,27 @@ const Countries = () => {
     const regionFilter =
       selectedRegion === "All" || country.region === selectedRegion;
     const subRegionFilter =
-      subRegion === "All" || country.subregion === subRegion;
+      selectedSubRegion === "All" || country.subregion === selectedSubRegion;
     return searchFilter && regionFilter && subRegionFilter;
   });
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
-  const handleRegionChange = (e) => {
-    setSelectedRegion(e.target.value);
-    setSubRegion("All");
-  };
   const uniqueRegions = data
     .map((item) => item.region)
     .filter((value, index, self) => self.indexOf(value) === index);
-
-  const handlePopulationSorting = (e) => {
-    setPopulation(e.target.value);
-
-    setArea("All");
-  };
-  const handleAreaSorting = (e) => {
-    setArea(e.target.value);
-
-    setPopulation("All");
-  };
-  if (population === "ascending") {
+  data.forEach((item) => {
+    if (item.region === selectedRegion) {
+      if (!subRegionData.includes(item.subregion)) {
+        subRegionData.push(item.subregion);
+      }
+    }
+  });
+  if (selectedPopulationOrder === "ascending") {
     filteredCountries.sort((a, b) => a.population - b.population);
-  } else if (population === "descending") {
+  } else if (selectedPopulationOrder === "descending") {
     filteredCountries.sort((a, b) => b.population - a.population);
   }
-  if (area === "ascending") {
+  if (selectedAreaOrder === "ascending") {
     filteredCountries.sort((a, b) => a.area - b.area);
-  } else if (area === "descending") {
+  } else if (selectedAreaOrder === "descending") {
     filteredCountries.sort((a, b) => b.area - a.area);
   }
   return (
@@ -91,17 +50,20 @@ const Countries = () => {
             placeholder="Search for a country.."
             name="search"
             value={search}
-            onChange={(e) => handleSearch(e)}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="dropdown">
           <select
             placeholder="Choose"
-            onChange={(e) => handleAreaSorting(e)}
+            onChange={(e) => {
+              setSelectedAreaOrder(e.target.value);
+              setSelectedPopulationOrder("");
+            }}
             className="dropbtn"
-            value={area}
+            value={selectedAreaOrder}
           >
-            <option value="All">Sort by Area</option>
+            <option value="">Sort by Area</option>
 
             <option className="dropdown-content" value="ascending">
               ascending
@@ -115,11 +77,14 @@ const Countries = () => {
         <div className="dropdown">
           <select
             placeholder="Choose"
-            onChange={(e) => handlePopulationSorting(e)}
+            onChange={(e) => {
+              setSelectedPopulationOrder(e.target.value);
+              setSelectedAreaOrder("");
+            }}
             className="dropbtn"
-            value={population}
+            value={selectedPopulationOrder}
           >
-            <option value="All">Sort by Population</option>
+            <option value="">Sort by Population</option>
 
             <option className="dropdown-content" value="ascending">
               ascending
@@ -132,11 +97,14 @@ const Countries = () => {
         </div>
         <div className="dropdown">
           <select
+            value={selectedSubRegion}
             placeholder="Choose"
-            onChange={(e) => setSubRegion(e.target.value)}
+            onChange={(e) => setSelectedSubRegion(e.target.value)}
             className="dropbtn"
           >
-            <option value={subRegion}>Filter by Subregion</option>
+            <option defaultValue={selectedSubRegion} value="All">
+              Filter by Subregion
+            </option>
             {subRegionData.map((item) => (
               <option key={item} value={item}>
                 {item}
@@ -144,13 +112,15 @@ const Countries = () => {
             ))}
           </select>
         </div>
-
         <div className="dropdown">
           <select
             value={selectedRegion}
             placeholder="Choose"
             className="dropbtn"
-            onChange={(e) => handleRegionChange(e)}
+            onChange={(e) => {
+              setSelectedRegion(e.target.value);
+              setSelectedSubRegion("All");
+            }}
           >
             <option value="All" defaultValue={selectedRegion}>
               Filter by region
@@ -163,22 +133,9 @@ const Countries = () => {
           </select>
         </div>
       </header>
-      {filteredCountries.length ? (
-        <EachCountry filteredCountries={filteredCountries} />
-      ) : (
-        <ThreeDots
-          visible={true}
-          height="80"
-          width="80"
-          color="#4fa94d"
-          radius="9"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-      )}
+      <Cards data={filteredCountries} />
     </>
   );
 };
 
-export default Countries;
+export default Header;

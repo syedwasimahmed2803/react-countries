@@ -1,7 +1,7 @@
-const EachCountry = ({ filteredCountries }) => {
+const Cards = ({ data }) => {
   return (
     <section className="section">
-      {filteredCountries.map((country) => (
+      {data.map((country) => (
         <div key={country.name.common} className="card">
           <img className="flag" src={country.flags.png} />
           <h3 id="name">{country.name.common}</h3>
@@ -24,4 +24,4 @@ const EachCountry = ({ filteredCountries }) => {
   );
 };
 
-export default EachCountry;
+export default Cards;
