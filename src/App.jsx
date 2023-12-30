@@ -1,14 +1,10 @@
 import "./App.css";
-// import Countries from "./Countries";
-import Contents from "./Contents";
-import Nav from "./Nav";
-// import Header from "./Header";
+import Contents from "./assets/Contents";
+import Nav from "./assets/Nav";
 function App() {
   return (
     <>
       <Nav />
-      {/* <Header /> */}
-      {/* <Countries /> */}
       <Contents />
     </>
   );
