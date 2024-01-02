@@ -114,16 +114,24 @@ const CountryDetail = ({ names }) => {
           );
         })
       ) : (
-        <ThreeDots
-          visible={true}
-          height="80"
-          width="80"
-          color="#4fa94d"
-          radius="9"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "5rem",
+          }}
+        >
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#00000"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
       )}
     </>
   );
