@@ -1,0 +1,98 @@
+.details {
+  display: flex;
+}
+
+#dark .details {
+  /* background-color: var(--dark-blue); */
+  color: var(--white);
+}
+.back-btn {
+  margin-left: 8rem;
+  cursor: pointer;
+  margin-top: 8vh;
+  padding-block: 2vh;
+  padding-right: 2vw;
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 4rem;
+  font-size: 1rem;
+  box-shadow: 2px 2px 5px rgba(5, 5, 5, 0.413);
+}
+#dark .back-btn {
+  background-color: var(--dark-blue);
+  color: var(--white);
+}
+
+.countryContainer {
+  display: flex;
+  /* margin-top: 5rem; */
+  margin-inline: 8rem;
+}
+
+.contentDiv {
+  /* padding-left: 10vw; */
+  padding-top: 5vh;
+  /* align-items: center; */
+}
+
+.border-container {
+  padding-top: 3vh;
+}
+.border-container button {
+  margin-inline: 5px;
+}
+
+.countryDetails {
+  margin-left: 10vw;
+  margin-top: 2rem;
+}
+.gridContainer {
+  display: grid;
+  grid-template-areas:
+    "a b"
+    "c c";
+  grid-column-gap: 10vw;
+  grid-row-gap: 8vh;
+}
+#dark .countryContainer {
+  color: var(--white);
+}
+.grid-left {
+  grid-area: a;
+}
+
+.cgrid-right {
+  grid-area: b;
+}
+
+.grid-bottom {
+  grid-area: c;
+}
+
+.flagImg {
+  height: 20rem;
+}
+.details-items {
+  margin-block: 1.2rem;
+}
+.countryDetails h1 {
+  font-size: 3rem;
+}
+p button {
+  background-color: transparent;
+  box-shadow: 2px 2px 5px rgba(5, 5, 5, 0.342);
+
+  /* border: 1px solid rgb(196, 196, 196); */
+  margin-inline: 4px;
+  /* font-size: 1rem; */
+  padding-block: 5px;
+  padding-inline: 2rem;
+  margin-block: 1vh;
+  border: none;
+}
+
+#dark p button {
+  background-color: var(--dark-blue);
+  color: var(--white);
+}

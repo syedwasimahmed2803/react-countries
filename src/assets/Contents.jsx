@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 const API_URL = "https://restcountries.com/v3.1/all";
-import Header from "./Header";
+import FeatureSelection from "./FeatureSelection";
+import { Routes, Route } from "react-router-dom";
+import CountryDetail from "./CountryDetail";
+import Error from "./Error";
 const Contents = () => {
   const [data, setData] = useState([]);
   const fetchData = async () => {
@@ -21,9 +24,20 @@ const Contents = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const codes = data.reduce((acc, curr) => {
+    acc[curr.cca3] = curr.name.common;
+    return acc;
+  }, {});
   return (
     <>
-      <Header data={data} />
+      <Routes>
+        <Route path="/" element={<FeatureSelection data={data} />}></Route>
+        <Route
+          path="/country/:id"
+          element={<CountryDetail names={codes} />}
+        ></Route>
+        <Route path="/*" element={<Error />} />
+      </Routes>
     </>
   );
 };

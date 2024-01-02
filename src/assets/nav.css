@@ -9,6 +9,13 @@ nav {
   font-size: 1.2rem;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
+#dark nav {
+  background-color: var(--dark-blue);
+  color: var(--white);
+}
+#light nav {
+  background-color: var(--white);
+}
 .header-text {
   margin-right: auto;
   font-weight: 800;
