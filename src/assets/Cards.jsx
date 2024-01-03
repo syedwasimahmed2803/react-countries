@@ -34,16 +34,24 @@ const Cards = ({ data, search }) => {
           </Link>
         ))
       ) : !search ? (
-        <ThreeDots
-          visible={true}
-          height="80"
-          width="80"
-          color="#000000"
-          radius="9"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10rem",
+          }}
+        >
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#000000"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
       ) : (
         <h2>No Such Countries found........</h2>
       )}{" "}
